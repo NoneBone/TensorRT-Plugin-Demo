@@ -83,8 +83,7 @@ int main(int argc, char** argv)
     // dimension is the only choice and this flag has been deprecated.
     if (getInferLibVersion() < 100000)
     {
-        flag |= 1U << static_cast<uint32_t>(
-                    nvinfer1::NetworkDefinitionCreationFlag::kEXPLICIT_BATCH);
+        flag |= 1U << static_cast<uint32_t>(0);
     }
     std::unique_ptr<nvinfer1::INetworkDefinition, InferDeleter> network{
         builder->createNetworkV2(flag)};
@@ -115,9 +114,9 @@ int main(int argc, char** argv)
         1U << static_cast<uint32_t>(nvinfer1::TensorFormat::kLINEAR)};
     nvinfer1::DataType const dtype{nvinfer1::DataType::kFLOAT};
     network->getInput(0)->setAllowedFormats(formats);
-    network->getInput(0)->setType(dtype);
+    // network->getInput(0)->setDataType(dtype);
     network->getOutput(0)->setAllowedFormats(formats);
-    network->getOutput(0)->setType(dtype);
+    // network->getOutput(0)->setDataType(dtype);
 
     // Build the engine.
     std::unique_ptr<nvinfer1::IBuilderConfig, InferDeleter> config{
@@ -128,7 +127,7 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
     config->setMemoryPoolLimit(nvinfer1::MemoryPoolType::kWORKSPACE, 1U << 20);
-    config->setFlag(nvinfer1::BuilderFlag::kFP16);
+    // config->setFlag(nvinfer1::BuilderFlag::kFP16);
 
     std::unique_ptr<nvinfer1::IHostMemory, InferDeleter> serializedModel{
         builder->buildSerializedNetwork(*network, *config)};

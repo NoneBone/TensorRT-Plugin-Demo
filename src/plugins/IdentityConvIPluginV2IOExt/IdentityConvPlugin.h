@@ -80,12 +80,12 @@ public:
 
     char const* getPluginNamespace() const noexcept override;
 
-    bool isOutputBroadcastAcrossBatch(int32_t outputIndex,
-                                      bool const* inputIsBroadcasted,
-                                      int32_t nbInputs) const noexcept override;
+    // bool isOutputBroadcastAcrossBatch(int32_t outputIndex,
+    //                                   bool const* inputIsBroadcasted,
+    //                                   int32_t nbInputs) const noexcept override;
 
-    bool
-    canBroadcastInputAcrossBatch(int32_t inputIndex) const noexcept override;
+    // bool
+    // canBroadcastInputAcrossBatch(int32_t inputIndex) const noexcept override;
 
 private:
     void deserialize(uint8_t const* data, size_t length);

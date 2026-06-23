@@ -9,8 +9,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(CUDAToolkit REQUIRED)
 
 # TensorRT NvInfer related libs
-find_library(NVINFER_LIB nvinfer HINTS /usr/lib/x86_64-linux-gnu/ PATH_SUFFIXES lib lib64 REQUIRED)
-find_library(NVINFER_PLUGIN_LIB nvinfer_plugin HINTS /usr/lib/x86_64-linux-gnu/ PATH_SUFFIXES lib lib64 REQUIRED)
+find_library(NVINFER_LIB
+    NAMES nvinfer
+    HINTS ${TENSORRT_DIR}/lib
+    REQUIRED
+)
+
+find_library(NVINFER_PLUGIN_LIB
+    NAMES nvinfer_plugin
+    HINTS ${TENSORRT_DIR}/lib
+    REQUIRED
+)
 
 # Add all the source files in the current directory to build the library
 add_library(
@@ -22,5 +31,17 @@ add_library(
     ${CMAKE_CURRENT_SOURCE_DIR}/PluginRegistration.cpp
 )
 
-target_include_directories(identity_conv_iplugin_v2_io_ext PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../PluginUtils)
-target_link_libraries(identity_conv_iplugin_v2_io_ext PRIVATE ${NVINFER_LIB} ${NVINFER_PLUGIN_LIB} CUDA::cudart)
+target_include_directories(
+    identity_conv_iplugin_v2_io_ext
+    PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/../PluginUtils
+    ${TENSORRT_DIR}/include
+)
+
+target_link_libraries(
+    identity_conv_iplugin_v2_io_ext
+    PRIVATE
+    ${NVINFER_LIB}
+    ${NVINFER_PLUGIN_LIB}
+    CUDA::cudart
+)

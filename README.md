@@ -29,8 +29,10 @@ $ docker run -it --rm --gpus device=0 -v $(pwd):/mnt -w /mnt tensorrt:25.02
 To build the application, please run the following command.
 
 ```bash
-$ cmake -B build
-$ cmake --build build --config Release --parallel
+cmake -B build \
+-DTENSORRT_DIR=/root/xxx/DRIVER/TensorRT-11.0.0.114
+
+cmake --build build --config Release --parallel
 ```
 
 Under the `build/src/plugins` directory, the custom plugin library will be saved as `libidentity_conv_iplugin_v2_io_ext.so` for `IPluginV2Ext` and `libidentity_conv_iplugin_v3.so` for `IPluginV3`, respectively. The `IPluginV2Ext` plugin interface has been deprecated since TensorRT 10.0.0 and will be removed in the future. The `IPluginV3` plugin interface is the only recommended interface for custom plugin development.
@@ -42,7 +44,7 @@ Under the `build/src/apps` directory, the engine builder will be saved as `build
 To build the ONNX model, please run the following command.
 
 ```bash
-$ python scripts/create_identity_neural_network.py
+python scripts/create_identity_neural_network.py
 ```
 
 The ONNX model will be saved as `identity_neural_network.onnx` under the `data` directory.
@@ -54,13 +56,13 @@ Alternatively, the ONNX model can be exported from a PyTorch model.
 To export an ONNX model with custom operations, please run the following command.
 
 ```bash
-$ python scripts/export_identity_neural_network.py
+python scripts/export_identity_neural_network.py
 ```
 
 To export an ONNX model with custom operations as ONNX functions, please run the following command.
 
 ```bash
-$ python scripts/export_identity_neural_network_onnx_function.py
+python scripts/export_identity_neural_network_onnx_function.py
 ```
 
 Note that this method only works with ONNX Opset 15 or above. Such ONNX export has also been deprecated since PyTorch 2.7.0.
@@ -112,7 +114,7 @@ $ ./build/src/apps/run_engine build/src/plugins/IdentityConvIPluginV2IOExt/libid
 #### Run Engine with IPluginV3
 
 ```bash
-$ ./build/src/apps/run_engine build/src/plugins/IdentityConvIPluginV3/libidentity_conv_iplugin_v3.so data/identity_neural_network_iplugin_v3.engine
+./build/src/apps/run_engine build/src/plugins/IdentityConvIPluginV3/libidentity_conv_iplugin_v3.so data/identity_neural_network_iplugin_v3.engine
 ```
 
 If the custom plugin implementation and integration are correct, the output of the TensorRT engine should be the same as the input.

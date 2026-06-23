@@ -33,3 +33,10 @@
 
 build
 .vscode
+
+# TRT
+*.trt
+*.engine
+*.onnx
+*.onnx.data
+data/identity_neural_network.onnx

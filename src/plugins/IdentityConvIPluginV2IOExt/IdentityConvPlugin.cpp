@@ -255,18 +255,18 @@ IdentityConv::getOutputDataType(int32_t index,
     return inputTypes[0];
 }
 
-bool IdentityConv::isOutputBroadcastAcrossBatch(int32_t outputIndex,
-                                                bool const* inputIsBroadcasted,
-                                                int32_t nbInputs) const noexcept
-{
-    return false;
-}
+// bool IdentityConv::isOutputBroadcastAcrossBatch(int32_t outputIndex,
+//                                                 bool const* inputIsBroadcasted,
+//                                                 int32_t nbInputs) const noexcept
+// {
+//     return false;
+// }
 
-bool IdentityConv::canBroadcastInputAcrossBatch(
-    int32_t inputIndex) const noexcept
-{
-    return false;
-}
+// bool IdentityConv::canBroadcastInputAcrossBatch(
+//     int32_t inputIndex) const noexcept
+// {
+//     return false;
+// }
 
 int32_t IdentityConv::enqueue(int32_t batchSize, void const* const* inputs,
                               void* const* outputs, void* workspace,
